@@ -27,49 +27,37 @@ class Calculator {
         let displayIntNumber
 
         if (isNaN(integerDigit)) {
-            displayIntNumber = ''
+            // console.log("1111111 integer digit is NaN if satisfied")
+            displayIntNumber = " ";
+            // console.log(displayIntNumber)
         } else {
+            // console.log("0000000 integer digit is a Number")
             displayIntNumber = integerDigit.toLocaleString('en', { maximumFractionDigits: 0 })
         }
         if (decimalDigit != null) {
-            return `${integerDigit}.${decimalDigit}`
+            // console.log(displayIntNumber)
+            return `${displayIntNumber}.${decimalDigit}`
         } else {
             return displayIntNumber
         }
 
     }
-    updateDisplay() {
-        // if(isNaN(this.result)){
-        //     this.prevCurrentOperandText.innerText = this.currentOperand.toString() + this.previousOperand.toString();
-        // }else{
-        //     this.prevCurrentOperandText.innerText = this.result;
-        //     this.result = undefined;
-        // }
-        if (this.operation != null) {
-            this.prevCurrentOperandText.innerText = `${this.getUpdatedNumber(this.previousOperand)} ${this.operation} ${this.getUpdatedNumber(this.currentOperand)}`;
-            console.log("inside operation not null updateDisplay")
-        } else {
-            this.prevCurrentOperandText.innerText = this.getUpdatedNumber(this.previousOperand) + this.getUpdatedNumber(this.currentOperand);
-            console.log("inside updateDisplay")
-        }
-
-
-
-    }
-
+    
     appendNumber(number) {
-        if (number === "." && this.currentOperand.includes(".")) return;
-        if(this.currentOperand.toString().length < 15){
+        // console.log("append call by button")
+        if (number === "." && this.currentOperand.includes(".")){ 
+            // console.log("includes'.' ...inside first if of append")
+            return 
+        }
+        
+        if(this.currentOperand.toString().length <= 14){
         this.currentOperand = this.currentOperand.toString() + number.toString();
         }else{
-            // console.log(this.prevCurrentOperandText.classList)
             var error = document.getElementById("error")
             document.getElementById("error").style.display = "flex";
             error.textContent = "Limit Reached..."
             error.style.color = "red"
             document.querySelector("[data-display]").classList.add("pulse");
-            // alert("Limit Reached");
-
         }
     }
 
@@ -116,6 +104,15 @@ class Calculator {
         this.operation = undefined;
         this.previousOperand = "";
     }
+    updateDisplay() {
+        if (this.operation != null) {
+            this.prevCurrentOperandText.innerText = `${this.getUpdatedNumber(this.previousOperand)} ${this.operation} ${this.getUpdatedNumber(this.currentOperand)}`;
+            // console.log("inside operation not null updateDisplay")
+        } else {
+            this.prevCurrentOperandText.innerText = this.getUpdatedNumber(this.previousOperand).toString() + this.getUpdatedNumber(this.currentOperand).toString();
+            // console.log("operation is null")
+        }
+    }
 
 }
 
@@ -133,39 +130,41 @@ const calculator = new Calculator(prevCurrentOperandText);
 
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
+        // console.log("button selected")
         calculator.appendNumber(button.innerText);
+        // console.log("calling update display")
         calculator.updateDisplay();
     })
 })
 operationButtons.forEach(button => {
     button.addEventListener('click', () => {
-        console.log('operation selected');
+        // console.log('operation selected');
         calculator.chooseOperation(button.innerText);
         calculator.updateDisplay();
     })
 })
 equalButton.addEventListener('click', button => {
-    console.log('equal clicked');
+    // console.log('equal clicked');
     calculator.compute();
     calculator.updateDisplay();
 })
 allClearButton.addEventListener('click', button => {
-    console.log('allclear clicked');
+    // console.log('allclear clicked');
     calculator.clear();
     calculator.updateDisplay();
 })
 deleteButton.addEventListener('click', button => {
-    console.log('delete clicked');
+    // console.log('delete clicked');
     calculator.delete();
     calculator.updateDisplay();
 })
 
 // Keyboard Events
-document.addEventListener('keyup', (e) => {
-    if (e.key == 'Enter' || e.key == 'Numenter') {
-        console.log(e.key);
-        calculator.compute();
-        calculator.updateDisplay();
-    }
-})
+// document.addEventListener('keyup', (e) => {
+//     if (e.key == 'Enter' || e.key == 'Numenter') {
+        // console.log(e.key);
+//         calculator.compute();
+//         calculator.updateDisplay();
+//     }
+// })
 
