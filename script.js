@@ -64,7 +64,7 @@ class Calculator {
     chooseOperation(operation) {
         document.querySelector("[data-display]").classList.remove("pulse");
         document.getElementById("error").style.display = "none";
-        if (this.currentOperand === "") return;
+        if (this.currentOperand === "")return
         if (this.currentOperand !== "") {
             this.compute();
         }
@@ -95,7 +95,7 @@ class Calculator {
                 computation = prev / curr;
                 break
             case "%":
-                computation = prev % curr;
+                computation=prev*(curr/100);
                 break
             default: return
         }
